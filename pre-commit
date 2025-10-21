@@ -1,0 +1,21 @@
+#!/bin/bash
+echo "Running pre-commit hook: Checking for README files..."
+
+# Find all directories except .git
+missing_readme=false
+
+for dir in $(find . -type d ! -path "./.git*"); do
+    if [ ! -f "$dir/README.md" ]; then
+        echo "Missing README.md in directory: $dir"
+        missing_readme=true
+    fi
+done
+
+if [ "$missing_readme" = true ]; then
+    echo "Commit aborted. Please add missing README.md files."
+    exit 1
+fi
+
+echo "All directories contain README.md files."
+exit 0
+
